@@ -2,7 +2,6 @@ import express from 'express';
 import User from './userModel';
 import asyncHandler from 'express-async-handler';
 import jwt from 'jsonwebtoken';
-import movieModel from '../movies/movieModel';
 
 const router = express.Router(); // eslint-disable-line
 
@@ -32,12 +31,40 @@ async function authenticateUser(req, res) {
 }
 
 // Get all users
+/**,
+ * @swagger
+ * /api/users:
+ *    get:
+ *      tags:
+ *       - users
+ *      summary: 
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description:  "successful operation"
+ * */
 router.get("/", async (req, res) => {
   const users = await User.find();
   res.status(200).json(users);
 });
 
 // register(Create)/Authenticate User
+/**,
+ * @swagger
+ * /api/users:
+ *    post:
+ *      tags:
+ *       - users
+ *      summary: register
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description: "successful operation"
+ * */
 router.post('/', asyncHandler(async (req, res) => {
     try {
         if (!req.body.username || !req.body.password) {
@@ -56,6 +83,20 @@ router.post('/', asyncHandler(async (req, res) => {
   }));
 
 // Update a user
+/**,
+ * @swagger
+ * /api/update/:id:
+ *    put:
+ *      tags:
+ *       - users
+ *      summary: Update a user
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description: "successful operation"
+ * */
 router.put("/update/:id", async (req, res) => {
   if (req.body._id) delete req.body._id;
   const user = await User.findById(req.params.id);
@@ -70,6 +111,20 @@ router.put("/update/:id", async (req, res) => {
 });
 
 // Delete a user
+   /**,
+ * @swagger
+ * /api/delete/:id:
+ *    delete:
+ *      tags:
+ *       - users
+ *      summary: 
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description: delete userId
+ * */
 router.delete("/delete/:id", async (req, res) => {
   const id = req.params.id;
   User.findByIdAndDelete(id, (err, user) => {
@@ -82,6 +137,20 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 //Add a favourite
+/**,
+ * @swagger
+ * /api/users/:username/favourites:
+ *    post:
+ *      tags:
+ *       - users
+ *      summary: 
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description: Add a favourite
+ * */
 router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     const movieId = req.body.movieId;
     const userName = req.params.userName;
@@ -97,12 +166,40 @@ router.post('/:userName/favourites', asyncHandler(async (req, res) => {
     }
   }));
 
+/**,
+ * @swagger
+ * /api/users/favourites:
+ *    get:
+ *      tags:
+ *       - users
+ *      summary: 
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description: get favourite movieId
+ * */
   router.get('/:userName/favourites', asyncHandler( async (req, res) => {
     const userName = req.params.userName;
     const user = await User.findByUserName(userName);
     res.status(200).json(user.favourites);
   }));
 
+   /**,
+ * @swagger
+ * /api/users/favourites:
+ *    delete:
+ *      tags:
+ *       - users
+ *      summary: 
+ *      operationId: 
+ *      produces:
+ *      - application/json
+ *      responses:
+ *        200:
+ *          description: delete favourite movieId
+ * */
   router.delete('/:username/favourites', asyncHandler(async (req, res) => {
     const userName = req.body.username;
     const movieId = req.body.movieId;
