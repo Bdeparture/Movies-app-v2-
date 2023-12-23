@@ -1,6 +1,6 @@
 import React from 'react';
 import Spinner from '../components/spinner';
-import { getMoviesPage, getToprateMovies, getUpcomingMovies } from '../api/tmdb-api';
+import { getPopularMovies, getToprateMovies, getUpcomingMovies } from '../api/tmdb-api';
 import { useQueries } from 'react-query';
 import { Button, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 
 const HomePage = () => {
   const results = useQueries([
-    { queryKey: ['popularMovies1', { page: 1 }], queryFn: getMoviesPage },
+    { queryKey: ['popularMovies1', { page: 1 }], queryFn: getPopularMovies },
     { queryKey: ['toprateMovies1', { page: 1 }], queryFn: getToprateMovies },
     { queryKey: ['upComingMovies1', { page: 1 }], queryFn: getUpcomingMovies },
   ]);

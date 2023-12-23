@@ -3,9 +3,10 @@ import movieModel from './movieModel';
 import uniqid from "uniqid";
 import asyncHandler from 'express-async-handler';
 import {
-    getMovie,getUpcomingMovies,getMovieCredits,getMovieImages,getMovieReviews,getTopRatedMovies,} from '../tmdb-api'; 
+    getMovie, getPopularMovies,  getUpcomingMovies, getMovieCredits, getMovieImages, getMovieReviews, getTopRatedMovies,getGenres,
+} from '../tmdb-api';
 
-const router = express.Router(); 
+const router = express.Router();
 let Regex = /^[1-9][0-9]*$/;
 
 
@@ -34,15 +35,15 @@ router.get('/', asyncHandler(async (req, res) => {
 router.get('/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     if (!Regex.test(id)) {
-        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
-    } 
+        res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
+    }
     else {
         const movie = await movieModel.findByMovieDBId(id);
         if (movie) {
             res.status(200).json(movie);
-        } 
+        }
         else {
-            res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+            res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
         }
     }
 }));
@@ -51,13 +52,13 @@ router.get('/:id', asyncHandler(async (req, res) => {
 router.get('/:id/reviews', (req, res) => {
     const id = parseInt(req.params.id);
     if (!Regex.test(id)) {
-        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+        res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
     }
     else {
         // find reviews in list
         if (movieReviews.id == id) {
             res.status(200).json(movieReviews);
-        } 
+        }
         else {
             res.status(404).json({
                 message: 'The resource you requested could not be found.',
@@ -70,46 +71,57 @@ router.get('/:id/reviews', (req, res) => {
 //Post a movie review
 router.post("/:id/reviews", (req, res) => {
     const id = parseInt(req.params.id);
-  
-    if (movieReviews.id == id) {
-      req.body.created_at = new Date();
-      req.body.updated_at = new Date();
-      req.body.id = uniqid();
-      movieReviews.results.push(req.body); //push the new review onto the list
-      res.status(201).json(req.body);
-    } else {
-      res.status(404).json({
-        message: "The resource you requested could not be found.",
-        status_code: 404,
-      });
-    }
-  });
 
-  router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
+    if (movieReviews.id == id) {
+        req.body.created_at = new Date();
+        req.body.updated_at = new Date();
+        req.body.id = uniqid();
+        movieReviews.results.push(req.body); //push the new review onto the list
+        res.status(201).json(req.body);
+    } else {
+        res.status(404).json({
+            message: "The resource you requested could not be found.",
+            status_code: 404,
+        });
+    }
+});
+
+router.get('/tmdb/popular', asyncHandler(async (req, res) => {
+    const popularMovies = await getPopularMovies();
+    res.status(200).json(popularMovies);
+}));
+
+router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
     const upcomingMovies = await getUpcomingMovies();
     res.status(200).json(upcomingMovies);
-  }));
+}));
 
-  router.get('/tmdb/topRated', asyncHandler(async (req, res) => {
+router.get('/tmdb/topRated', asyncHandler(async (req, res) => {
     const topRatedMovies = await getTopRatedMovies();
     res.status(200).json(topRatedMovies);
-  }));
-  
-  router.get('/tmdb/movie/:id', asyncHandler(async (req, res) => {
+}));
+
+router.get('/tmdb/genres', asyncHandler(async (req, res) => {
+    const genres = await getGenres();
+    res.status(200).json(genres);
+}));
+
+router.get('/tmdb/:id', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     if (!Regex.test(id)) {
-        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+        res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
     }
     else {
         const movie = await getMovie(id);
         res.status(200).json(movie);
     }
+    
 }));
 
-router.get('/tmdb/movie/:id/movie_credits', asyncHandler(async (req, res) => {
+router.get('/tmdb/:id/movie_credits', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     if (!Regex.test(id)) {
-        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+        res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
     }
     else {
         const credits = await getMovieCredits(id);
@@ -117,10 +129,10 @@ router.get('/tmdb/movie/:id/movie_credits', asyncHandler(async (req, res) => {
     }
 }));
 
-router.get('/tmdb/movie/:id/images', asyncHandler(async (req, res) => {
+router.get('/tmdb/:id/images', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     if (!Regex.test(id)) {
-        res.status(404).json({message: 'The resource you requested could not be found.', status_code: 404});
+        res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
     }
     else {
         const images = await getMovieImages(id);
@@ -132,6 +144,6 @@ router.get('/tmdb/:id/movieReviews', asyncHandler(async (req, res) => {
     const id = parseInt(req.params.id);
     const movieReviews = await getMovieReviews(id);
     res.status(200).json(movieReviews);
-  }));
+}));
 
 export default router;

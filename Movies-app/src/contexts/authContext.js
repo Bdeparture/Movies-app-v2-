@@ -1,43 +1,54 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import React, { useState, createContext } from "react";
+import { login, signup } from "../api/tmdb-api";
 
-const AuthContext = React.createContext(null);
+export const AuthContext = createContext(null);
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+const AuthContextProvider = (props) => {
+  const existingToken = localStorage.getItem("token");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [, setAuthToken] = useState(existingToken);
+  const [userName, setUserName] = useState("");
 
-export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState();
-
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  //Function to put JWT token in local storage.
+  const setToken = (data) => {
+    localStorage.setItem("token", data);
+    setAuthToken(data);
   }
 
-  function login(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+  const authenticate = async (username, password) => {
+    const result = await login(username, password);
+    if (result.token) {
+      setToken(result.token)
+      setIsAuthenticated(true);
+      setUserName(username);
+      return {success: true, status: result.status, message: "Login Successfully!"}
+    }
+    return {success: false, status: result.status, message: result.message};
+  };
+
+  const register = async (username, password) => {
+    const result = await signup(username, password);
+    console.log(result.code);
+    return (result.code === 201) ? true : false;
+  };
+
+  const signout = () => {
+    setTimeout(() => setIsAuthenticated(false), 100);
   }
 
-  function logout() {
-    return signOut(auth);
-  }
+  return (
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        authenticate,
+        register,
+        signout,
+        userName
+      }}
+    >
+      {props.children}
+    </AuthContext.Provider>
+  );
+};
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setCurrentUser(user)
-    })
-
-    return unsubscribe;
-  }, [])
-
-  const value = {
-    currentUser,
-    signup,
-    login,
-    logout
-  }
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  
-}
+export default AuthContextProvider;

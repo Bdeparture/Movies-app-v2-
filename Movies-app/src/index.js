@@ -17,13 +17,14 @@ import ToprateMoviesPage from './pages/toprateMoviesPage'
 import PeopleDetailsPage from "./pages/peopleDetailsPage";
 import LoginPage from './pages/loginPage'
 import SignupPage from './pages/signupPage'
-import { AuthProvider } from './contexts/authContext'
+import AuthContextProvider from './contexts/authContext'
+import ProtectedRoutes from "./protectedRoutes";
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 360000,
-      refetchInterval: 360000, 
+      refetchInterval: 360000,
       refetchOnWindowFocus: false
     },
   },
@@ -34,31 +35,34 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <SiteHeader />
-        <MoviesContextProvider>
-        <AuthProvider>
-        <Routes>
-        <Route path="/reviews/form" element={ <AddMovieReviewPage /> } />
-          <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
-          <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
-          <Route path="/movies/:id" element={<MoviePage />} />
-          <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
-          <Route path="/movies/toprate" element={<ToprateMoviesPage />} />
-          <Route path="/movies" element={<Movie />} />
-          <Route path="/people" element={<People />} />
-          <Route path="/people/:id" element={<PeopleDetailsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="*" element={ <Navigate to="/" /> } />
-        </Routes>
-       </AuthProvider>
-        </MoviesContextProvider>
+        <AuthContextProvider>
+          <MoviesContextProvider>
+            <Routes>
+              <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+              <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+              <Route path="/reviews/:id" element={<MovieReviewPage />} />
+              <Route path="/movies/:id" element={<MoviePage />} />
+              <Route path="/movies/upcoming" element={<UpcomingMoviesPage />} />
+              <Route path="/movies/toprate" element={<ToprateMoviesPage />} />
+              <Route path="/movies" element={<Movie />} />
+              <Route path="/people" element={<People />} />
+              <Route path="/people/:id" element={<PeopleDetailsPage />} />
+              <Route path="/" element={<LoginPage />} />
+              <Route path="/signup" element={<SignupPage />} />
+              <Route path="/home" element={<HomePage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+              <Route element={<ProtectedRoutes />}>
+                <Route path="/reviews/form" element={<AddMovieReviewPage />} />
+                <Route path="/movies/favorites" element={<FavoriteMoviesPage />} />
+              </Route>
+            </Routes>
+          </MoviesContextProvider></AuthContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 };
 
-const rootElement = createRoot( document.getElementById("root") )
+const rootElement = createRoot(document.getElementById("root"))
 
 rootElement.render(<App />);

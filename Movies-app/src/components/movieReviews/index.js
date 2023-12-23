@@ -12,13 +12,14 @@ import { excerpt } from "../../util";
 
 export default function MovieReviews({ movie }) {
   const [reviews, setReviews] = useState([]);
-
+   
   useEffect(() => {
-    getMovieReviews(movie.id).then((reviews) => {
-      setReviews(reviews);
+    getMovieReviews(movie.id).then((response) => {
+      setReviews(response.results);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   return (
     <TableContainer component={Paper}>
