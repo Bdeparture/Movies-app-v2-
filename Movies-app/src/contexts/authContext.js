@@ -33,7 +33,7 @@ const AuthContextProvider = (props) => {
   };
 
   const signout = () => {
-    setTimeout(() => setIsAuthenticated(false), 100);
+      setIsAuthenticated(false);
   }
 
   return (

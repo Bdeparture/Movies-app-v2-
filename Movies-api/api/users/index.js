@@ -82,32 +82,40 @@ router.delete("/delete/:id", async (req, res) => {
 });
 
 //Add a favourite
-router.post(
-  "/:userName/favourites",
-  asyncHandler(async (req, res) => {
-    const newFavourite = req.body.id;
+router.post('/:userName/favourites', asyncHandler(async (req, res) => {
+    const movieId = req.body.movieId;
     const userName = req.params.userName;
-    const movie = await movieModel.findByMovieDBId(newFavourite);
-    const user = await User.findByUserName(userName);
-    if (user.favourites.includes(movie._id)) {
-      res
-        .status(401)
-        .json({ success: false, msg: "favourite already exist inside." });
-    } else {
-      await user.favourites.push(movie._id);
-      await user.save();
-      res.status(201).json(user);
+    try {
+        await User.findOneAndUpdate(
+            {username: userName}, 
+            {$addToSet: {favouriteMovies: movieId}}, 
+            {new: true}
+        );
+        res.status(200).json({message: 'Favourite movie added successfully'});
+    } catch (error) {
+        res.status(500).json({message: 'Error adding favourite movie'});
     }
-  })
-);
+  }));
 
-router.get(
-  "/:userName/favourites",
-  asyncHandler(async (req, res) => {
+  router.get('/:userName/favourites', asyncHandler( async (req, res) => {
     const userName = req.params.userName;
-    const user = await User.findByUserName(userName).populate("favourites");
+    const user = await User.findByUserName(userName);
     res.status(200).json(user.favourites);
-  })
-);
+  }));
 
+  router.delete('/:username/favourites', asyncHandler(async (req, res) => {
+    const userName = req.body.username;
+    const movieId = req.body.movieId;
+
+    try {
+        await User.findOneAndUpdate(
+            {username: userName},
+            {$pull: {favouriteMovies: movieId}},
+            {new: true}
+        );
+        res.status(200).json({message: 'Favourite movie removed successfully'});
+    } catch (error) {
+        res.status(500).json({message: 'Error removing favourite movie'});
+    }
+}));
 export default router;

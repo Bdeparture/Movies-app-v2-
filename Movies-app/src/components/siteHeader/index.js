@@ -100,7 +100,7 @@ const SiteHeader = ({ }) => {
               <Button
                     key={"Home"}
                     color="inherit"
-                    onClick={() => handleMenuSelect("/")}
+                    onClick={() => handleMenuSelect("/home")}
                   >
                     Home
                   </Button>

@@ -43,8 +43,8 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
   const { data, error, isLoading, isError } = results[0];
   const CreditData = results[1]
 
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const [isFavorite, setIsFavorite] = React.useState(false);
   const addToFavorites = () => {
     context.addToFavorites(movie);
     setIsFavorite(true);

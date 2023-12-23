@@ -118,7 +118,7 @@ export const getFavouriteMovies = async (username) => {
 }
 
 export const addFavouriteMovies = async (username, movie) => {
-  const response = await fetch(`http://localhost:8080/api/users/favourites`, {
+  const response = await fetch(`http://localhost:8080/api/users/${username}/favourites`, {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
@@ -132,7 +132,7 @@ export const addFavouriteMovies = async (username, movie) => {
 }
 
 export const removeFavouriteMovies = async (username, movie) => {
-  const response = await fetch(`http://localhost:8080/api/users/favourites`, {
+  const response = await fetch(`http://localhost:8080/api/users/${username}/favourites`, {
       method: 'DELETE',
       headers: {
           'Content-Type': 'application/json',
