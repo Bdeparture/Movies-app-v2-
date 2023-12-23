@@ -43,41 +43,10 @@ router.get('/', asyncHandler(async (req, res) => {
     res.status(200).json(returnObject);
 }));
 
-// Get movie details
-/**,
- * @swagger
- * /api/movies/:id:
- *    get:
- *      tags:
- *       - movie
- *      summary: getMovie
- *      operationId: getMovie 
- *      produces:
- *      - application/json
- *      responses:
- *        200:
- *          description: 
- * */
-router.get('/:id', asyncHandler(async (req, res) => {
-    const id = parseInt(req.params.id);
-    if (!Regex.test(id)) {
-        res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
-    }
-    else {
-        const movie = await movieModel.findByMovieDBId(id);
-        if (movie) {
-            res.status(200).json(movie);
-        }
-        else {
-            res.status(404).json({ message: 'The resource you requested could not be found.', status_code: 404 });
-        }
-    }
-}));
-
 // Get movie reviews
 /**,
  * @swagger
- * /api/movies/tmdb/:id/reviews:
+ * /api/movies/:id/reviews:
  *    get:
  *      tags:
  *       - movie
@@ -296,7 +265,7 @@ router.get('/tmdb/:id', asyncHandler(async (req, res) => {
 
 /**,
  * @swagger
- * /api/movies/tmdb/:id/movieCredits:
+ * /api/movies/tmdb/:id/movie_credits:
  *    get:
  *      tags:
  *       - movie
@@ -321,7 +290,7 @@ router.get('/tmdb/:id/movie_credits', asyncHandler(async (req, res) => {
 
 /**
  * @swagger
- * /api/movies/tmdb/{id}/images:
+ * /api/movies/tmdb/:id/images:
  *   get:
  *    tags:
  *     - movie
