@@ -1,0 +1,370 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Movies_app",
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "/"
+  } ],
+  "paths" : {
+    "/api/movies" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/api/movies/:id" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "getMovie",
+        "operationId" : "getMovie",
+        "responses" : {
+          "200" : { }
+        }
+      }
+    },
+    "/api/movies/tmdb/:id/reviews" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "movieReviews",
+        "operationId" : "movieReviews",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/movies/:id/reviews" : {
+      "post" : {
+        "tags" : [ "movie" ],
+        "summary" : "movieReviews",
+        "operationId" : "movieReviews",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/movies/tmdb/popular/page{page}" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Get popular movies",
+        "description" : "Get popular movies",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "path",
+          "description" : "Page number",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "404" : {
+            "description" : "Movie not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ "TMDBAPIKEY" ]
+        } ]
+      }
+    },
+    "/api/movies/tmdb/upcoming/page{page}" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Get upcoming movies",
+        "description" : "Get upcoming movies",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "path",
+          "description" : "Page number",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "404" : {
+            "description" : "Movie not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ "TMDBAPIKEY" ]
+        } ]
+      }
+    },
+    "/api/movies/tmdb/topRated/page{page}" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Get toperate movies",
+        "description" : "Get toperate movies",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "path",
+          "description" : "Page number",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "404" : {
+            "description" : "Movie not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ "TMDBAPIKEY" ]
+        } ]
+      }
+    },
+    "/api/movies/tmdb/genres" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "getGenres",
+        "operationId" : "getGenres",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/movies/tmdb/{id}" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Get specific movies",
+        "description" : "Get specific movies",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Movie id number",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "404" : {
+            "description" : "Movie not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ "TMDBAPIKEY" ]
+        } ]
+      }
+    },
+    "/api/movies/tmdb/:id/movieCredits" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "movieCredits",
+        "operationId" : "movieCredits",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/movies/tmdb/{id}/images" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "Get specific movie's images",
+        "description" : "Get specific movie's images URL",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Movie id number",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          },
+          "404" : {
+            "description" : "Movie not found"
+          },
+          "500" : {
+            "description" : "Internal server error"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ "TMDBAPIKEY" ]
+        } ]
+      }
+    },
+    "/api/movies/tmdb/:id/movieReviews" : {
+      "get" : {
+        "tags" : [ "movie" ],
+        "summary" : "movieReviews",
+        "operationId" : "movieReviews",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/people" : {
+      "get" : {
+        "tags" : [ "people" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/people/tmdb/peopleList/:page" : {
+      "get" : {
+        "tags" : [ "people" ],
+        "summary" : "getPeopleList",
+        "operationId" : "getPeopleList",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/people/tmdb/:id" : {
+      "get" : {
+        "tags" : [ "people" ],
+        "summary" : "getPeople",
+        "operationId" : "getPeople",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/people/tmdb/:id/peopleMovieCredits" : {
+      "get" : {
+        "tags" : [ "people" ],
+        "summary" : "getPeopleMovieCredits",
+        "operationId" : "getPeopleMovieCredits",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/people/tmdb/:id/peopleImages" : {
+      "get" : {
+        "tags" : [ "people" ],
+        "summary" : "getPeopleImages",
+        "operationId" : "getPeopleImages",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/users" : {
+      "get" : {
+        "tags" : [ "users" ],
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "register",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/update/:id" : {
+      "put" : {
+        "tags" : [ "users" ],
+        "summary" : "Update a user",
+        "responses" : {
+          "200" : {
+            "description" : "successful operation"
+          }
+        }
+      }
+    },
+    "/api/delete/:id" : {
+      "delete" : {
+        "tags" : [ "users" ],
+        "responses" : {
+          "200" : {
+            "description" : "delete userId"
+          }
+        }
+      }
+    },
+    "/api/users/:username/favourites" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "responses" : {
+          "200" : {
+            "description" : "Add a favourite"
+          }
+        }
+      }
+    },
+    "/api/users/favourites" : {
+      "get" : {
+        "tags" : [ "users" ],
+        "responses" : {
+          "200" : {
+            "description" : "get favourite movieId"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "users" ],
+        "responses" : {
+          "200" : {
+            "description" : "delete favourite movieId"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : { }
+  }
+}
