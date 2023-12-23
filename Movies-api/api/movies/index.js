@@ -86,18 +86,21 @@ router.post("/:id/reviews", (req, res) => {
     }
 });
 
-router.get('/tmdb/popular', asyncHandler(async (req, res) => {
-    const popularMovies = await getPopularMovies();
+router.get('/tmdb/popular/:page', asyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const popularMovies = await getPopularMovies(page);
     res.status(200).json(popularMovies);
 }));
 
-router.get('/tmdb/upcoming', asyncHandler(async (req, res) => {
-    const upcomingMovies = await getUpcomingMovies();
+router.get('/tmdb/upcoming/:page', asyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const upcomingMovies = await getUpcomingMovies(page);
     res.status(200).json(upcomingMovies);
 }));
 
-router.get('/tmdb/topRated', asyncHandler(async (req, res) => {
-    const topRatedMovies = await getTopRatedMovies();
+router.get('/tmdb/topRated/:page', asyncHandler(async (req, res) => {
+    const page = parseInt(req.params.page);
+    const topRatedMovies = await getTopRatedMovies(page);
     res.status(200).json(topRatedMovies);
 }));
 
