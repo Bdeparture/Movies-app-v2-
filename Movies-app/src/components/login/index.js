@@ -53,7 +53,7 @@ const Login = () => {
           <h2 style={{ textAlign:"center" }}>Log in</h2>
           {/* {currentUser.email} */}
           {error && <Alert severity="error">{error}</Alert>}
-          <Typography style={{ textAlign: 'left' }}>Email</Typography>
+          <Typography style={{ textAlign: 'left' }}>Username</Typography>
           <TextField id="Email1" variant="outlined" inputRef={emailRef} sx={{paddingBottom: 1.5}} />
           <Typography>Password</Typography>
           <TextField id="Password" variant="outlined" type="password" inputRef={passwordRef} sx={{paddingBottom: 2}} />

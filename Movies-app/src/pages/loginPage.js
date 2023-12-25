@@ -59,7 +59,7 @@ const LoginPage = props => {
                 >
                     <h2 style={{ textAlign: "center" }}>Log in</h2>
                     {msg && <Alert severity={msgType}>{msg}</Alert>}
-                    <Typography style={{ textAlign: 'left' }}>Email</Typography>
+                    <Typography style={{ textAlign: 'left' }}>Username</Typography>
                     <TextField id="Email1" variant="outlined" onChange={e => {
                         setUserName(e.target.value);
                     }} sx={{ paddingBottom: 1.5 }} />

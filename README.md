@@ -24,7 +24,7 @@ Enter `npm run dev` to start the backend.
 ## API Configuration
 
 Don't forget to create your own `.env` file.
----
+***
 REACT_APP_TMDB_KEY=Your tmdb api key
 SECRET=your JWT secret
 FAST_REFRESH=false
@@ -32,7 +32,7 @@ NODE_ENV=development
 PORT=8080
 HOST=localhost
 MONGO_DB=mongodb address
----
+***
 
 ## API Design
 
