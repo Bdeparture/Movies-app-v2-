@@ -1,6 +1,7 @@
 # Movies-app-v2
 
 Sisi Chen
+
 YouTube: [movies_app with api](https://www.youtube.com/watch?v=yrd8dLXpt8g&t=11s)
 
 ## Features
@@ -16,7 +17,9 @@ YouTube: [movies_app with api](https://www.youtube.com/watch?v=yrd8dLXpt8g&t=11s
 ## Setup requirements
 
 Enter `npm install` to install all the dependencies demanded.
+
 Enter `npm start` to start the frontend.
+
 Enter `npm run dev` to start the backend.
 
 - Client URL: http://localhost:3000
@@ -40,6 +43,7 @@ MONGO_DB=mongodb address
 find more information [movie_app](https://app.swaggerhub.com/apis-docs/chenAstra/movie_app/1.0.0)
 
 ### movies
+
 - /api/movies
 - /api/movies/tmdb/popular/page
 - /api/movies/tmdb/upcoming/page
@@ -75,7 +79,9 @@ if you do not login, this page can not be entered
 ## Integrating with React App
 
 inheritage the [last app](https://github.com/Bdeparture/Movies-app)
+
 use MongoDB to create database, and seperate the frontend and backend.
+
 optimize the account logic.
 
 ## Independent learning (if relevant)
